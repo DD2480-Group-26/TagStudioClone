@@ -1,9 +1,5 @@
 # Report for assignment 4
 
-[Tests before addition](https://dd2480-group-26.github.io/TagStudioReports/report_before_addtions.html?sort=result)
-
-[Tests after addition](https://dd2480-group-26.github.io/TagStudioReports/report_after_addtions.html?sort=result)
-
 
 ## Project
 
@@ -139,8 +135,10 @@ Optional (point 5): considered for acceptance (passes all automated checks).
 
 ## Test results
 
-Overall results with link to a copy or excerpt of the logs (before/after
-refactoring).
+[Tests before addition](https://dd2480-group-26.github.io/TagStudioReports/report_before_addtions.html?sort=result)
+
+[Tests after addition](https://dd2480-group-26.github.io/TagStudioReports/report_after_addtions.html?sort=result)
+
 
 ## UML class diagram and its description
 
