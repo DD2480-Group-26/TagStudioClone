@@ -151,6 +151,8 @@ All the patches we applied pass the repository's automated tests during our pull
 
 ## UML class diagram and its description
 
+[UML diagram for [Feature Request]: Shortcut customization #814](https://www.plantuml.com/plantuml/png/TLHDRzim3BthLn2zfCKGxEv3qUxZjClQ5DZHu2J65g18daWd-zZ--_IX6EaotopoyV7naV032qQP3qw95KUm6qCKFGkydrd2mVv4iS73C-rHIuZM3qfju1qomOIU79oi6KX0HXG8SmHTwcgIWRuBUQFmAqjC1A0TCiFddFnI2t-fFvdnPIJmT6ga-n21Z9NK3hWfObMA5uKxafpdGfPe002sOA8zKeGEFfIF5aLZUi6XFtFrcJo1dZxHZnrzcybh-fX21Vu668-qOFdsBY6FmPggDFK_bN5Nb5W_KhJ2i8_XS3cg-Zz-k_rz_mhMt6YJt8O8E4tEwhe97Rp4u1p5kwfY3CumSEC4z2R52L1dUFEich6Oj82J0sSn_pWbeMTof8LCNwao-B6I5X-UQOh4vEkIme7WITerCCnC1gm76TkTD25NXhVmegA-MwFQnfN1URGJTsgpulhCn81N_FcISYw2zTEyleBxwygkM8tMysfJr9gOQV5N0WmaR-V9eD35uQvtROLTqQysxPrV5wPateaYMvPbTQeXCya2lEAfjo4ZdHqjVjmy6WClEDoy8cc0hXOfzK3UvF_2Nm00)
+
 ### Key changes/classes affected
 
 Optional (point 1): Architectural overview.
