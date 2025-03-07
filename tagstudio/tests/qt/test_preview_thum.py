@@ -55,6 +55,7 @@ class DummySettings:
                 result = type_(result)
         return result
 
+
 class DummyLibrary:
     def __init__(self, library_dir: Path = None):
         if library_dir is None:
