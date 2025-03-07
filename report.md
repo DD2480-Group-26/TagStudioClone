@@ -130,7 +130,7 @@ https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0006-Closes-issue-nu
 
 
 ##### Patch for [Bug]: The app freezes for a time when clicking on a GIF image
-COPY LINK HERE
+https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0002-Added-the-patch-for-issue-1.patch
 
 ##### Patch for [Feature Request]: Add the ability to open the URL in the URL field #506
 https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0001-Added-the-patch-for-issue-3.patch
