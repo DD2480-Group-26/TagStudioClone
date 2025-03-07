@@ -118,6 +118,20 @@ Testing: Because this was a feature request, there were no existing tests relate
 
 ## Requirements for the new feature or requirements affected by functionality being refactored
 
+### Requirements for [Feature Request]: Sort by Filename #822
+
+#### Requirement 1: Add to sort mode in SortingModeEnum
+- Add a new alternative in SortingModeEnum
+
+#### Requirement 2: Update the search_library function
+- Adding a case to the function to handle the sorting by filename
+
+#### Requirement 3: Add the alternative to translations
+- Add the "FILENAME" to the dropdown menu
+
+#### Requirement 4: Update the filter functions
+- Make sure the new sorting mode is correctly used
+
 ### Requirements for [Feature Request]: Shortcut customization #814
 
 #### Requirement 1: Configurable shortcut
