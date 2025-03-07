@@ -77,7 +77,7 @@ For setting up tools and libraries (step 4), enumerate all dependencies you took
 ## Overview of issue(s) and work done.
 
 
-##### Title: [Feature Request]: Sort by Filename #822
+#### Title: [Feature Request]: Sort by Filename #822
 
 URL: https://github.com/TagStudioDev/TagStudio/issues/822
 
@@ -85,7 +85,7 @@ Summary of issue: Add a dropdown category to the main window that sorts the file
 
 Testing: Because this was a feature request, there were no existing tests related to the issue when we started.
 
-##### [Bug]: The app freezes for a time when clicking on a GIF image
+#### Title: [Bug]: The app freezes for a time when clicking on a GIF image #816
 URL: https://github.com/TagStudioDev/TagStudio/issues/816
 
 Summary of the issue: There is a preview window and when a user clicks on a gif file, there is a delay that lasts a few seconds before the gif file can be seen in 
@@ -96,7 +96,7 @@ Scope: Fixing the
 
 Testing: There were no tests for this functionality before 
 
-##### Title: [Feature Request]: Add the ability to open the URL in the URL field #506
+#### Title: [Feature Request]: Add the ability to open the URL in the URL field #506
 URL: https://github.com/TagStudioDev/TagStudio/issues/506
 
 Summary of issue: The user is able to create “fields”, each field has a text-line. The feature requested is that links in the text-line of a field should be clickable and opened in the browser. The issue specifies that this should be the case for the URL type of field, but in the comments of the issue, it is requested that this functionality should extend to all the fields with text-line.
@@ -105,7 +105,7 @@ Scope: Fixing the issue involved changes in the FieldContainers class and in the
 
 Testing: There existed some testing for creating fields, and those tests passed before. I added tests for validating that the users input would be formatted and displayed in the GUI correctly.
 
-##### Title: [Feature Request]: Shortcut customization #814
+#### Title: [Feature Request]: Shortcut customization #814
 
 URL: https://github.com/TagStudioDev/TagStudio/issues/814
 
@@ -125,14 +125,14 @@ Optional (point 3): trace tests to requirements.
 
 ### Patch
 
-##### Patch for [Feature Request]: Sort by Filename #822
+#### Patch for [Feature Request]: Sort by Filename #822
 https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0006-Closes-issue-number-8.patch
 
 
-##### Patch for [Bug]: The app freezes for a time when clicking on a GIF image
+#### Patch for [Bug]: The app freezes for a time when clicking on a GIF image
 https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0002-Added-the-patch-for-issue-1.patch
 
-##### Patch for [Feature Request]: Add the ability to open the URL in the URL field #506
+#### Patch for [Feature Request]: Add the ability to open the URL in the URL field #506
 https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0001-Added-the-patch-for-issue-3.patch
 
 
@@ -151,7 +151,10 @@ All the patches we applied pass the repository's automated tests during our pull
 
 ## UML class diagram and its description
 
+[UML diagram for [Feature Request]: Add the ability to open the URL in the URL field #506](https://www.plantuml.com/plantuml/png/bLLjR-Cs3FwUNq7qm-fYkTvtunRShjTY1nJ5RirUW64GQ8jnXCXI9j5fUkl--oHBhk70QB02ZINouGiV4jH7p-YuQ_NYyjqRVujB-1dh7JPKmgzVu7Sb6s8FnHgRH-waibTdxFV96Ywygw__vkkdvE42_bai06gDtiET8Yrlh65KXfm7EZ8PwU5h2XUW4Fw-XmqUh5DCejjBP98bFAh6e2ugQ_LL1g6hj-f0yWrGIAl_W5PL2VUgSkYUiqYwOEnA-CgV-rCMAwDOeLRVeiFeQP1xOVTa9hBQjgqrOXEhycK8uZbhMdKaEQUeiTu63HbsYhBgmssuFQy6n43Fe9sIDi3sQ4YBgX6rrNP8tjVEQYqqFjkEGsc_VRB7-_uo1Q0Z3Eh7_lPZk6IsChE9KB5njXKKSolwNw429ShmSW1KA1loYHBu0TQkewiI3bR9gQF6eUaqkko6iGb6dlX36AxL4dhfXAmFdz1JN_VgVmTZspIQP8nIXFynwQGG1zGT9JTJ-wsI94RsYwcs8OukHOrCZOtDAwPr1BXKDVyPpYyFrj3oLVDNTk6ejGTAXOfz87VFXS6MWWzsL_rlHgAK6SPMUD9KCyaYII8_YQLfWj4cPZGnYOA-_9UUrd1OJQsUd68QgowKaNJCXFNnIdZjnHAK5_raltRX3hMd6O-9gbclfzrFXAQnA65WB_YEd_CXJuajJhEU7P9vw19YocGuTMGkHalUOqEYiiUYRs72nZAqhi8ABE4cdB3I9pbIgpZDiF3zcl9fEjF8vzwyU4g7PS9R8x3oCQ7viVztNArhEdBUeiDMxMkQRDPtKA6dSJ_yTBeVEDW6TKKwQE_ZTxePX8ZxKOY25MlAfGUZp5X6UM8HXSMecQPy2UijzRb0UYPo4Rn5dgdaEbSvLz8b5B5_MI-9KMaFnZBuhNqoLtt84FJSutSRGZc36jx3dSEMdgpRmNVmsRQe3Dn4x-JFU4avv6SctSRd9RS9ctGQfsunzpOcuQH3IPAwShwUNqWZAslyLktFvNtwB5zVhuOge8Gk53uB6Kfx2pEL1MJj29dy-nODDlD68pK1ltUs9k_daP7EW1bsyhU06gSd0Z9TGuQdof7T0H6OUx1C9Pn6KwRMdIGFQC8vpygcCtKa6TZ2HOix4bgPdHUrLlKkxe0Bs5W7wzi_rkB-oyDjMgbXdZ-IaLsh5_y1)
+
 [UML diagram for [Feature Request]: Shortcut customization #814](https://www.plantuml.com/plantuml/png/TLHDRzim3BthLn2zfCKGxEv3qUxZjClQ5DZHu2J65g18daWd-zZ--_IX6EaotopoyV7naV032qQP3qw95KUm6qCKFGkydrd2mVv4iS73C-rHIuZM3qfju1qomOIU79oi6KX0HXG8SmHTwcgIWRuBUQFmAqjC1A0TCiFddFnI2t-fFvdnPIJmT6ga-n21Z9NK3hWfObMA5uKxafpdGfPe002sOA8zKeGEFfIF5aLZUi6XFtFrcJo1dZxHZnrzcybh-fX21Vu668-qOFdsBY6FmPggDFK_bN5Nb5W_KhJ2i8_XS3cg-Zz-k_rz_mhMt6YJt8O8E4tEwhe97Rp4u1p5kwfY3CumSEC4z2R52L1dUFEich6Oj82J0sSn_pWbeMTof8LCNwao-B6I5X-UQOh4vEkIme7WITerCCnC1gm76TkTD25NXhVmegA-MwFQnfN1URGJTsgpulhCn81N_FcISYw2zTEyleBxwygkM8tMysfJr9gOQV5N0WmaR-V9eD35uQvtROLTqQysxPrV5wPateaYMvPbTQeXCya2lEAfjo4ZdHqjVjmy6WClEDoy8cc0hXOfzK3UvF_2Nm00)
+
 
 ### Key changes/classes affected
 
