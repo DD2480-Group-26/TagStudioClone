@@ -118,6 +118,19 @@ Testing: Because this was a feature request, there were no existing tests relate
 
 ## Requirements for the new feature or requirements affected by functionality being refactored
 
+### Requirements for [Feature Request]: Shortcut customization #814
+
+#### Requirement 1: Configurable shortcut
+- The “Add Tag” action must allow users to set their keyboard shortcut, which defaults to T.
+
+#### Requirement 2: Persistence
+- Any changes to the shortcut must be saved via QSettings and reloaded on application start.
+
+#### Requirement 3: Dedicated UI panel
+- ShortcutSettingsPanel provides a QKeySequenceEdit for editing the shortcut.
+
+#### Requirement 4: Immediate application
+- The updated shortcut is applied instantly to the QAction without needing to restart the application.
 
 Optional (point 3): trace tests to requirements.
 
