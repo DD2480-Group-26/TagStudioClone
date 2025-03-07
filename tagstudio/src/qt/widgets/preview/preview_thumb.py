@@ -279,7 +279,6 @@ class PreviewThumb(QWidget):
                 )
                 return self._display_fallback_image(filepath, ext)
 
-        
         return stats
 
     def _update_video_legacy(self, filepath: Path) -> dict:
