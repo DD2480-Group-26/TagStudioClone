@@ -24,35 +24,44 @@ For each team member, how much time was spent in
 1. plenary discussions/meetings;
 - Love: 2 hours.
 - Filip: 2 Hours.
+- Adam: 2 hours.
 
 2. discussions within parts of the group;
 - Love: 2 hours.
 - Filip: 2 Hours.
+- Adam: 2 hours.
 
 3. reading documentation;
 - Love: 1 hour.
 - Filip: 1 Hours.
+- Adam: 2 hours.
 
 4. configuration and setup;
 - Love: 3 hours. Since I had to change to python 3.12 which broke my python install and making it work again took some time. The developers provided a requirements file which installed almost all of the required dependencies. We only had to download FFMPEG separely.
 
 - Filip: 2 Hours. I also had some problems when setting up the project, there seemed to be some modules missing in the virtual enviroments requirement.txt which installed all the necessary modules so I hade to manually install some of the modules.
 
+- Adam: 2 hours.
+
 5. analyzing code/output;
 - Love: 1 hour.
 - Filip: 2 hours.
+- Adam: 4 hours.
 
 6. writing documentation;
 - Love: 2 hours.
 - Filip: 3 hours.
+- Adam: 3 hours.
 
 7. writing code;
 - Love: 15 hours
 - Filip: 10 hours.
+- Adam: 8 hours.
 
 8. running code?
 - Love: 2 hours, first to find out what was wrong with the code and then to make sure that my changes did not break any other part of the code.
 - Filip: 3 hours, I include the time I spent bug searching the code I wrote and not just the run-time.
+- Adam: 2 hours.
 
 For setting up tools and libraries (step 4), enumerate all dependencies
 you took care of and where you spent your time, if that time exceeds
@@ -61,13 +70,13 @@ you took care of and where you spent your time, if that time exceeds
 ## Overview of issue(s) and work done.
 
 
-Title:
+Title: [Feature Request]: Sort by Filename #822
 
-URL:
+URL: https://github.com/TagStudioDev/TagStudio/issues/822
 
-Summary in one or two sentences
+Summary of issue: Add a dropdown category to the main window that sorts the files according to the name of the file.
 
-Scope (functionality and code affected).
+Testing: Because this was a feature request, there were no existing tests related to the issue when we started.
 
 ## Requirements for the new feature or requirements affected by functionality being refactored
 
