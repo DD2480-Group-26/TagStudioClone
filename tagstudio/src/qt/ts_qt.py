@@ -34,9 +34,9 @@ from PySide6.QtGui import (
     QFontDatabase,
     QGuiApplication,
     QIcon,
+    QKeySequence,
     QMouseEvent,
     QPalette,
-    QKeySequence,
 )
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (
@@ -389,7 +389,6 @@ class QtDriver(DriverMixin, QObject):
         shortcuts_action.triggered.connect(lambda: self.open_shortcuts_panel())
         file_menu.addAction(shortcuts_action)
 
-
         open_on_start_action = QAction(Translations["settings.open_library_on_start"], self)
         open_on_start_action.setCheckable(True)
         open_on_start_action.setChecked(
@@ -493,7 +492,6 @@ class QtDriver(DriverMixin, QObject):
         self.add_tag_to_selected_action.setToolTip(add_tag_shortcut)
         self.add_tag_to_selected_action.setEnabled(False)
         edit_menu.addAction(self.add_tag_to_selected_action)
-
 
         edit_menu.addSeparator()
 
@@ -1820,15 +1818,10 @@ class QtDriver(DriverMixin, QObject):
 
     def open_shortcuts_panel(self):
         panel = ShortcutSettingsPanel(self)
-        modal = PanelModal(
-            widget=panel,
-            done_callback=panel.save_shortcuts,
-            has_save=True
-        )
+        modal = PanelModal(widget=panel, done_callback=panel.save_shortcuts, has_save=True)
         modal.setTitle("Shortcut Settings")
         modal.setWindowTitle("Shortcut Settings")
         modal.show()
-
 
     def update_language_settings(self, language: str):
         Translations.change_language(language)
