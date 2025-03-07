@@ -88,8 +88,8 @@ Testing: Because this was a feature request, there were no existing tests relate
 ##### [Bug]: The app freezes for a time when clicking on a GIF image
 URL: https://github.com/TagStudioDev/TagStudio/issues/816
 
-Summary of the issue: There is a preview window and when a user click on a gif file is there a delay that lasts a few seconds before the gif file can be seen in 
-in the preview. During this time does tha app freeze and the user can not interact with the app in any way.  Fixing this issue should not reintroduce the
+Summary of the issue: There is a preview window and when a user clicks on a gif file, there is a delay that lasts a few seconds before the gif file can be seen in 
+in the preview. During this time, the app freezes and the user can not interact with the app in any way. Fixing this issue should not reintroduce the
 problem which the pause fixed, namely that files playing in the preview should still be deletable, which they were not previously.
 
 Scope: Fixing the 
