@@ -149,6 +149,14 @@ Testing: Because this was a feature request, there were no existing tests relate
 #### Requirement 4: Immediate application
 - The updated shortcut is applied instantly to the QAction without needing to restart the application.
 
+### Requirments for [Feature Request]: Add the ability to open the URL in the URL field #506
+
+#### Requirement 1: Highlight
+- The links in the text of a field should be highlighted blue and have an underline.
+
+#### Requirement 2: Open browser
+- The default browser should open the website when link is clicked.
+
 
 ## Code changes
 
