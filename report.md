@@ -85,6 +85,16 @@ Summary of issue: Add a dropdown category to the main window that sorts the file
 
 Testing: Because this was a feature request, there were no existing tests related to the issue when we started.
 
+##### [Bug]: The app freezes for a time when clicking on a GIF image
+URL: https://github.com/TagStudioDev/TagStudio/issues/816
+
+Summary of the issue: There is a preview window and when a user click on a gif file is there a delay that lasts a few seconds before the gif file can be seen in 
+in the preview. During this time does tha app freeze and the user can not interact with the app in any way.  Fixing this issue should not reintroduce the
+problem which the pause fixed, namely that files playing in the preview should still be deletable, which they were not previously.
+
+Scope: Fixing the 
+
+Testing: There were no tests for this functionality before 
 
 ##### Title: [Feature Request]: Add the ability to open the URL in the URL field #506
 URL: https://github.com/TagStudioDev/TagStudio/issues/506
