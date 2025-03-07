@@ -846,6 +846,8 @@ class Library:
             match search.sorting_mode:
                 case SortingModeEnum.DATE_ADDED:
                     sort_on = Entry.id
+                case SortingModeEnum.FILENAME:
+                    sort_on = Entry.path
 
             statement = statement.order_by(asc(sort_on) if search.ascending else desc(sort_on))
             statement = statement.limit(search.limit).offset(search.offset)
