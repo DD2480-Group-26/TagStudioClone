@@ -125,7 +125,8 @@ Optional (point 3): trace tests to requirements.
 
 ### Patch
 
-(copy your changes or the add git command to show them)
+# Patch for [Feature Request]: Shortcut customization #814
+https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0001-feat-closes-issue-5.patch
 
 git diff ...
 
