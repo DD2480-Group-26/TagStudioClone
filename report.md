@@ -132,7 +132,6 @@ Testing: Because this was a feature request, there were no existing tests relate
 #### Requirement 4: Immediate application
 - The updated shortcut is applied instantly to the QAction without needing to restart the application.
 
-Optional (point 3): trace tests to requirements.
 
 ## Code changes
 
@@ -171,12 +170,6 @@ All the patches we applied pass the repository's automated tests during our pull
 [UML diagram for [Feature Request]: Sort by Filename #822](https://www.plantuml.com/plantuml/png/TPBVQeCm5CRlynIvj8Wl4CQecoaCwc1qiCiGasmDonz8Jcd7sBlF654HwuNaVFdEpoydxYFm01Tha30yHamTX1_yYt3_L5XBWhM3iNBSAe8ZXB6M71JZKYf9XZLegz0VGifTB3xv0DfzjLugckgCREftokgceSrG7bwEzBLkQUhAtpze0ogSeCTDAM96CTkpo1eyUdWKoibU9xZptWngYQyQpcpPNgJNRcjNwg04QE-A7hMR0nrr5_WqaX97nOCuCvFbudF8k_2tNBiFxQI_RkPdmjlET_v6yDjpMZxvssHR9RdhBLT8Rap7nNSn7co3D5jIqdp93rMr7kQuKrMFouj0UGQvOqDFzldOQA-SJ3_KFm00)
 
 
-### Key changes/classes affected
-
-Optional (point 1): Architectural overview.
-
-Optional (point 2): relation to design pattern(s).
-
 ## Overall experience
 
 What are your main take-aways from this project? What did you learn?
@@ -188,7 +181,3 @@ The experience we gained during the project is being comfortable using git and a
 By working with the issues we have gained insights about the construction of the project and how to improve other projects in the future.
 
 We are currently in the “In-place” state, which is the same state as we were in the last project. We are comfortable in our communication and conscious of what we can expect from one another.  
-
-Optional (point 6): How would you put your work in context with best software engineering practice?
-
-Optional (point 7): Is there something special you want to mention here?
