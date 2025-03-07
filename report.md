@@ -97,6 +97,12 @@ What are your main take-aways from this project? What did you learn?
 
 How did you grow as a team, using the Essence standard to evaluate yourself?
 
+The experience we gained during the project is being comfortable using git and always writing tests to support your written code. 
+
+By working with the issues we have gained insights about the construction of the project and how to improve other projects in the future.
+
+We are currently in the “In-place” state, which is the same state as we were in the last project. We are comfortable in our communication and conscious of what we can expect from one another.  
+
 Optional (point 6): How would you put your work in context with best software engineering practice?
 
 Optional (point 7): Is there something special you want to mention here?
