@@ -3,16 +3,16 @@
 
 ## Project
 
-Name:TagStudio
+Name: TagStudio
 
 URL: https://github.com/TagStudioDev/TagStudio
 
-One or two sentences describing it: The 
+One or two sentences describing it: The repository we chose is a application for file and media managment, with a tag-based system focused on flexability and freedom for the user.
 
 ## Onboarding experience
 
 Did you choose a new project or continue on the previous one?
-For the assignment did we choose a different project. The experience was similar to the previous one. The tagstudio program 
+For the assignment did we choose a different project. The experience was similar to the previous one. The tagstudio program is
 in a relativly early stage of development and there is not a significant amount of information which made it hard to understand 
 how the code worked, but that is similar to the previous project which also did not have a lot of documentation. 
 
@@ -22,29 +22,44 @@ how the code worked, but that is similar to the previous project which also did 
 For each team member, how much time was spent in
 
 1. plenary discussions/meetings;
-Love: 2 hours
+Love: 2 hours.
 
-2. discussions within parts of the group;
-Love: 2 hours
+Filip: 2 Hours.
 
-3. reading documentation;
-Love 1 hour
+3. discussions within parts of the group;
+Love: 2 hours.
 
-4. configuration and setup;
+Filip: 2 Hours.
+
+4. reading documentation;
+Love: 1 hour.
+
+Filip: 1 Hours.
+
+6. configuration and setup;
 The developers provided a requirements file which installed almost all of the required dependencies. We only had to download FFMPEG separely.
 Love: 3 hours since I had to change to python 3.12 which broke my python install and making it work again took some time.
 
-5. analyzing code/output;
+I also had some problems when setting up the project, there seemed to be some modules missing in the virtual enviroments requirement.txt which installed all the necessary modules so I hade to manually install some of the modules.
+Filip: 2 Hours.
+
+7. analyzing code/output;
 Love: 1 hour.
 
-6. writing documentation;
+Filip: 2 hours.
+
+9. writing documentation;
 Love: 2 hours.
 
-7. writing code;
-Love: 15 hours
+Filip: 3 hours.
 
-8. running code?
+11. writing code;
+Love: 15 hours
+Filip: 10 hours.
+
+13. running code?
 Love: 2 hours, first to find out what was wrong with the code and then to make sure that my changes did not break any other part of the code.
+Filip: 3 hours, I include the time I spent bug searching the code I wrote and not just the run-time.
 
 For setting up tools and libraries (step 4), enumerate all dependencies
 you took care of and where you spent your time, if that time exceeds
