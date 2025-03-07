@@ -22,44 +22,37 @@ how the code worked, but that is similar to the previous project which also did 
 For each team member, how much time was spent in
 
 1. plenary discussions/meetings;
-Love: 2 hours.
+- Love: 2 hours.
+- Filip: 2 Hours.
 
-Filip: 2 Hours.
+2. discussions within parts of the group;
+- Love: 2 hours.
+- Filip: 2 Hours.
 
-3. discussions within parts of the group;
-Love: 2 hours.
+3. reading documentation;
+- Love: 1 hour.
+- Filip: 1 Hours.
 
-Filip: 2 Hours.
+4. configuration and setup;
+- Love: 3 hours. Since I had to change to python 3.12 which broke my python install and making it work again took some time. The developers provided a requirements file which installed almost all of the required dependencies. We only had to download FFMPEG separely.
 
-4. reading documentation;
-Love: 1 hour.
+- Filip: 2 Hours. I also had some problems when setting up the project, there seemed to be some modules missing in the virtual enviroments requirement.txt which installed all the necessary modules so I hade to manually install some of the modules.
 
-Filip: 1 Hours.
+5. analyzing code/output;
+- Love: 1 hour.
+- Filip: 2 hours.
 
-6. configuration and setup;
-The developers provided a requirements file which installed almost all of the required dependencies. We only had to download FFMPEG separely.
-Love: 3 hours since I had to change to python 3.12 which broke my python install and making it work again took some time.
+6. writing documentation;
+- Love: 2 hours.
+- Filip: 3 hours.
 
-I also had some problems when setting up the project, there seemed to be some modules missing in the virtual enviroments requirement.txt which installed all the necessary modules so I hade to manually install some of the modules.
-Filip: 2 Hours.
+7. writing code;
+- Love: 15 hours
+- Filip: 10 hours.
 
-7. analyzing code/output;
-Love: 1 hour.
-
-Filip: 2 hours.
-
-9. writing documentation;
-Love: 2 hours.
-
-Filip: 3 hours.
-
-11. writing code;
-Love: 15 hours
-Filip: 10 hours.
-
-13. running code?
-Love: 2 hours, first to find out what was wrong with the code and then to make sure that my changes did not break any other part of the code.
-Filip: 3 hours, I include the time I spent bug searching the code I wrote and not just the run-time.
+8. running code?
+- Love: 2 hours, first to find out what was wrong with the code and then to make sure that my changes did not break any other part of the code.
+- Filip: 3 hours, I include the time I spent bug searching the code I wrote and not just the run-time.
 
 For setting up tools and libraries (step 4), enumerate all dependencies
 you took care of and where you spent your time, if that time exceeds
