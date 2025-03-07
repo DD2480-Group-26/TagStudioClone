@@ -34,9 +34,9 @@ from PySide6.QtGui import (
     QFontDatabase,
     QGuiApplication,
     QIcon,
+    QKeySequence,
     QMouseEvent,
     QPalette,
-    QKeySequence,
 )
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (

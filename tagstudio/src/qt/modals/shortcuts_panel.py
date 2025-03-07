@@ -1,13 +1,6 @@
-from PySide6.QtWidgets import (
-    QFormLayout,
-    QVBoxLayout,
-    QWidget,
-    QLabel,
-    QKeySequenceEdit
-)
-from src.qt.widgets.panel import PanelWidget
-from src.qt.translations import Translations
 from PySide6.QtGui import QKeySequence
+from PySide6.QtWidgets import QFormLayout, QKeySequenceEdit, QLabel, QVBoxLayout, QWidget
+from src.qt.widgets.panel import PanelWidget
 
 
 class ShortcutSettingsPanel(PanelWidget):
