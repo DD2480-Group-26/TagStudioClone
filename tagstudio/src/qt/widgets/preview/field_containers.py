@@ -2,6 +2,7 @@
 # Licensed under the GPL-3.0 License.
 # Created for TagStudio: https://github.com/CyanVoxel/TagStudio
 
+import re
 import sys
 import typing
 from collections.abc import Callable
@@ -302,6 +303,23 @@ class FieldContainers(QWidget):
         else:
             container = self.containers[index]
 
+        def make_links_clickable(text):
+            if not text:
+                return ""
+
+            url_pattern = re.compile(
+                r"(https?://\S+|www\.\S+|\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b(?!@))"
+            )
+
+            def replace_with_link(match):
+                url = match.group(0)
+                text = url
+                if not url.startswith("http"):
+                    url = "http://" + url
+                return f'<a href="{url}">{text}</a>'
+
+            return url_pattern.sub(replace_with_link, text)
+
         if field.type.type == FieldTypeEnum.TEXT_LINE:
             container.set_title(field.type.name)
             container.set_inline(False)
@@ -310,12 +328,14 @@ class FieldContainers(QWidget):
             if not is_mixed:
                 assert isinstance(field.value, (str, type(None)))
                 text = field.value or ""
+                text = make_links_clickable(text)  # Convert URLs to links
             else:
                 text = "<i>Mixed Data</i>"
 
             title = f"{field.type.name} ({field.type.type.value})"
             inner_widget = TextWidget(title, text)
             container.set_inner_widget(inner_widget)
+
             if not is_mixed:
                 modal = PanelModal(
                     EditTextLine(field.value),

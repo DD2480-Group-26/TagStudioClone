@@ -1,3 +1,7 @@
+from pathlib import Path
+
+from src.core.library.alchemy import Entry
+from src.core.library.alchemy.fields import TextField, _FieldID
 from src.qt.widgets.preview_panel import PreviewPanel
 
 
@@ -170,3 +174,39 @@ def test_custom_tag_category(qt_driver, library, entry_full):
             case 2:
                 # Make sure the container isn't a plain Tags category
                 assert container.title != "<h4>Tags</h4>"
+
+
+def test_textline_url_autolinking(qt_driver, library, entry_full):
+    panel = PreviewPanel(library, qt_driver)
+
+    # Create entry with TextLine field containing URL
+    entry = Entry(
+        folder=library.folder,
+        path=Path("test.txt"),
+        fields=[
+            TextField(
+                type_key=_FieldID.URL.name, value="Visit example.com and github.com", position=0
+            )
+        ],
+    )
+
+    # Add to library
+    entry_id = library.add_entries([entry])[0]
+
+    # Update widgets
+    qt_driver.toggle_item_selection(entry_id, append=False, bridge=False)
+    panel.update_widgets()
+
+    # Get the first container
+    first_container = panel.fields.containers[0]
+
+    # Get the first widget in the layout
+    first_widget = first_container.field_layout.itemAt(0).widget()
+
+    # Get the QLabel
+    label = first_widget.children()[1]
+
+    assert (
+        label.text()
+        == 'Visit <a href="http://example.com">example.com</a> and <a href="http://github.com">github.com</a>'
+    )
