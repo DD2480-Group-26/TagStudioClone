@@ -1,0 +1,221 @@
+From 62d038763a05b2e9e21d9e8b5a73e90fedeb8776 Mon Sep 17 00:00:00 2001
+From: fhedma <fhedma@kth.se>
+Date: Fri, 7 Mar 2025 10:01:18 +0100
+Subject: [PATCH] feat: closes issue #5 add shortcut customization and menu
+ with presistence
+
+---
+ tagstudio/resources/translations/en.json   |  1 +
+ tagstudio/src/qt/modals/shortcuts_panel.py | 47 +++++++++++++++++++
+ tagstudio/src/qt/ts_qt.py                  | 34 +++++++++-----
+ tagstudio/tests/qt/test_shortcuts_panel.py | 52 ++++++++++++++++++++++
+ 4 files changed, 124 insertions(+), 10 deletions(-)
+ create mode 100644 tagstudio/src/qt/modals/shortcuts_panel.py
+ create mode 100644 tagstudio/tests/qt/test_shortcuts_panel.py
+
+diff --git a/tagstudio/resources/translations/en.json b/tagstudio/resources/translations/en.json
+index 4fe852d..e7c19e7 100644
+--- a/tagstudio/resources/translations/en.json
++++ b/tagstudio/resources/translations/en.json
+@@ -200,6 +200,7 @@
+     "menu.macros": "&Macros",
+     "menu.select": "Select",
+     "menu.settings": "Settings...",
++    "menu.shortcuts" : "Shortcuts",
+     "menu.tools.fix_duplicate_files": "Fix Duplicate &Files",
+     "menu.tools.fix_unlinked_entries": "Fix &Unlinked Entries",
+     "menu.tools": "&Tools",
+diff --git a/tagstudio/src/qt/modals/shortcuts_panel.py b/tagstudio/src/qt/modals/shortcuts_panel.py
+new file mode 100644
+index 0000000..11715cf
+--- /dev/null
++++ b/tagstudio/src/qt/modals/shortcuts_panel.py
+@@ -0,0 +1,47 @@
++from PySide6.QtWidgets import (
++    QFormLayout,
++    QVBoxLayout,
++    QWidget,
++    QLabel,
++    QKeySequenceEdit
++)
++from src.qt.widgets.panel import PanelWidget
++from src.qt.translations import Translations
++from PySide6.QtGui import QKeySequence
++
++
++class ShortcutSettingsPanel(PanelWidget):
++    def __init__(self, driver):
++        super().__init__()
++        self.driver = driver
++        self.setMinimumSize(320, 200)
++        
++        # Layout for the panel
++        self.root_layout = QVBoxLayout(self)
++        self.root_layout.setContentsMargins(6, 0, 6, 0)
++        
++        # Container for form items
++        self.form_container = QWidget()
++        self.form_layout = QFormLayout(self.form_container)
++        self.form_layout.setContentsMargins(0, 0, 0, 0)
++        
++        # Example shortcut: "Add Tag" action
++        add_tag_label = QLabel("Add Tag Shortcut:")
++        self.add_tag_shortcut_edit = QKeySequenceEdit()
++        # Load the existing shortcut from QSettings 
++        current_shortcut = self.driver.settings.value("shortcuts/add_tag", defaultValue="T")
++        self.add_tag_shortcut_edit.setKeySequence(current_shortcut)
++        self.form_layout.addRow(add_tag_label, self.add_tag_shortcut_edit)
++        
++        self.root_layout.addWidget(self.form_container)
++        self.root_layout.addStretch(1)
++    
++    def save_shortcuts(self):
++        add_tag_shortcut = self.add_tag_shortcut_edit.keySequence().toString()
++        self.driver.settings.setValue("shortcuts/add_tag", add_tag_shortcut)
++        self.driver.settings.sync()
++        
++        if self.driver.add_tag_to_selected_action:
++            self.driver.add_tag_to_selected_action.setShortcut(QKeySequence(add_tag_shortcut))
++            self.driver.add_tag_to_selected_action.setToolTip(add_tag_shortcut)
++
+diff --git a/tagstudio/src/qt/ts_qt.py b/tagstudio/src/qt/ts_qt.py
+index 9342298..eb35cba 100644
+--- a/tagstudio/src/qt/ts_qt.py
++++ b/tagstudio/src/qt/ts_qt.py
+@@ -36,6 +36,7 @@ from PySide6.QtGui import (
+     QIcon,
+     QMouseEvent,
+     QPalette,
++    QKeySequence,
+ )
+ from PySide6.QtUiTools import QUiLoader
+ from PySide6.QtWidgets import (
+@@ -88,6 +89,7 @@ from src.qt.modals.fix_dupes import FixDupeFilesModal
+ from src.qt.modals.fix_unlinked import FixUnlinkedEntriesModal
+ from src.qt.modals.folders_to_tags import FoldersToTagsModal
+ from src.qt.modals.settings_panel import SettingsPanel
++from src.qt.modals.shortcuts_panel import ShortcutSettingsPanel
+ from src.qt.modals.tag_color_manager import TagColorManager
+ from src.qt.modals.tag_database import TagDatabasePanel
+ from src.qt.modals.tag_search import TagSearchPanel
+@@ -383,6 +385,11 @@ class QtDriver(DriverMixin, QObject):
+         settings_action.triggered.connect(self.open_settings_modal)
+         file_menu.addAction(settings_action)
+ 
++        shortcuts_action = QAction(Translations["menu.shortcuts"], menu_bar)
++        shortcuts_action.triggered.connect(lambda: self.open_shortcuts_panel())
++        file_menu.addAction(shortcuts_action)
++
++
+         open_on_start_action = QAction(Translations["settings.open_library_on_start"], self)
+         open_on_start_action.setCheckable(True)
+         open_on_start_action.setChecked(
+@@ -476,23 +483,18 @@ class QtDriver(DriverMixin, QObject):
+         self.paste_fields_action.setEnabled(False)
+         edit_menu.addAction(self.paste_fields_action)
+ 
++        # shortcut code
++        add_tag_shortcut = str(self.settings.value("shortcuts/add_tag", "T"))
+         self.add_tag_to_selected_action = QAction(
+             Translations["select.add_tag_to_selected"], menu_bar
+         )
+         self.add_tag_to_selected_action.triggered.connect(self.add_tag_modal.show)
+-        self.add_tag_to_selected_action.setShortcut(
+-            QtCore.QKeyCombination(
+-                QtCore.Qt.KeyboardModifier(
+-                    QtCore.Qt.KeyboardModifier.ControlModifier
+-                    ^ QtCore.Qt.KeyboardModifier.ShiftModifier
+-                ),
+-                QtCore.Qt.Key.Key_T,
+-            )
+-        )
+-        self.add_tag_to_selected_action.setToolTip("Ctrl+Shift+T")
++        self.add_tag_to_selected_action.setShortcut(QKeySequence(add_tag_shortcut))
++        self.add_tag_to_selected_action.setToolTip(add_tag_shortcut)
+         self.add_tag_to_selected_action.setEnabled(False)
+         edit_menu.addAction(self.add_tag_to_selected_action)
+ 
++
+         edit_menu.addSeparator()
+ 
+         self.delete_file_action = QAction(
+@@ -1816,6 +1818,18 @@ class QtDriver(DriverMixin, QObject):
+         modal.setWindowTitle(Translations["settings.title"])
+         modal.show()
+ 
++    def open_shortcuts_panel(self):
++        panel = ShortcutSettingsPanel(self)
++        modal = PanelModal(
++            widget=panel,
++            done_callback=panel.save_shortcuts,
++            has_save=True
++        )
++        modal.setTitle("Shortcut Settings")
++        modal.setWindowTitle("Shortcut Settings")
++        modal.show()
++
++
+     def update_language_settings(self, language: str):
+         Translations.change_language(language)
+ 
+diff --git a/tagstudio/tests/qt/test_shortcuts_panel.py b/tagstudio/tests/qt/test_shortcuts_panel.py
+new file mode 100644
+index 0000000..7d3ddcd
+--- /dev/null
++++ b/tagstudio/tests/qt/test_shortcuts_panel.py
+@@ -0,0 +1,52 @@
++from typing import Optional
++from PySide6.QtCore import QSettings
++from PySide6.QtGui import QAction, QKeySequence
++from PySide6.QtWidgets import QMenu
++from src.qt.modals.shortcuts_panel import ShortcutSettingsPanel 
++import pytest
++
++# Dummy driver class to simulate the driver object
++class DummyDriver:
++    settings: Optional[QSettings]
++    add_tag_to_selected_action: Optional[QAction]
++    menu: Optional[QMenu]
++
++    def __init__(self) -> None:
++        self.settings = None
++        self.add_tag_to_selected_action = None
++        self.menu = None
++
++@pytest.fixture
++def dummy_driver(tmp_path):
++    # Create a temporary QSettings file
++    settings_file = tmp_path / "test_settings.ini"
++    settings = QSettings(str(settings_file), QSettings.Format.IniFormat)
++    settings.setValue("shortcuts/add_tag", "T")
++    
++    driver = DummyDriver()
++    driver.settings = settings
++
++    # Create dummy QMenu and store it so that it isnt garbage collected
++    menu = QMenu()
++    driver.menu = menu
++    driver.add_tag_to_selected_action = QAction("Add Tag", menu)
++    
++    return driver
++
++def test_save_shortcuts(dummy_driver, qtbot):
++    # create instance of the panel using dummy driver
++    panel = ShortcutSettingsPanel(dummy_driver)
++    qtbot.addWidget(panel)
++    
++    # Simulate a user changing the shortcut in shortcut panel
++    new_shortcut_str = "Ctrl+Shift+X"
++    panel.add_tag_shortcut_edit.setKeySequence(new_shortcut_str)
++    
++    # update settings and the QAction
++    panel.save_shortcuts()
++    
++    # Verify QSettings value is updated
++    assert dummy_driver.settings.value("shortcuts/add_tag") == new_shortcut_str
++    
++    # Verify QAction shortcut updated.
++    assert dummy_driver.add_tag_to_selected_action.shortcut() == QKeySequence(new_shortcut_str)
+-- 
+2.46.0.windows.1
+
