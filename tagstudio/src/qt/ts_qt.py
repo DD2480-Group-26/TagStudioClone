@@ -36,6 +36,7 @@ from PySide6.QtGui import (
     QIcon,
     QMouseEvent,
     QPalette,
+    QKeySequence,
 )
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (
@@ -88,6 +89,7 @@ from src.qt.modals.fix_dupes import FixDupeFilesModal
 from src.qt.modals.fix_unlinked import FixUnlinkedEntriesModal
 from src.qt.modals.folders_to_tags import FoldersToTagsModal
 from src.qt.modals.settings_panel import SettingsPanel
+from src.qt.modals.shortcuts_panel import ShortcutSettingsPanel
 from src.qt.modals.tag_color_manager import TagColorManager
 from src.qt.modals.tag_database import TagDatabasePanel
 from src.qt.modals.tag_search import TagSearchPanel
@@ -383,6 +385,11 @@ class QtDriver(DriverMixin, QObject):
         settings_action.triggered.connect(self.open_settings_modal)
         file_menu.addAction(settings_action)
 
+        shortcuts_action = QAction(Translations["menu.shortcuts"], menu_bar)
+        shortcuts_action.triggered.connect(lambda: self.open_shortcuts_panel())
+        file_menu.addAction(shortcuts_action)
+
+
         open_on_start_action = QAction(Translations["settings.open_library_on_start"], self)
         open_on_start_action.setCheckable(True)
         open_on_start_action.setChecked(
@@ -476,22 +483,17 @@ class QtDriver(DriverMixin, QObject):
         self.paste_fields_action.setEnabled(False)
         edit_menu.addAction(self.paste_fields_action)
 
+        # shortcut code
+        add_tag_shortcut = str(self.settings.value("shortcuts/add_tag", "T"))
         self.add_tag_to_selected_action = QAction(
             Translations["select.add_tag_to_selected"], menu_bar
         )
         self.add_tag_to_selected_action.triggered.connect(self.add_tag_modal.show)
-        self.add_tag_to_selected_action.setShortcut(
-            QtCore.QKeyCombination(
-                QtCore.Qt.KeyboardModifier(
-                    QtCore.Qt.KeyboardModifier.ControlModifier
-                    ^ QtCore.Qt.KeyboardModifier.ShiftModifier
-                ),
-                QtCore.Qt.Key.Key_T,
-            )
-        )
-        self.add_tag_to_selected_action.setToolTip("Ctrl+Shift+T")
+        self.add_tag_to_selected_action.setShortcut(QKeySequence(add_tag_shortcut))
+        self.add_tag_to_selected_action.setToolTip(add_tag_shortcut)
         self.add_tag_to_selected_action.setEnabled(False)
         edit_menu.addAction(self.add_tag_to_selected_action)
+
 
         edit_menu.addSeparator()
 
@@ -1815,6 +1817,18 @@ class QtDriver(DriverMixin, QObject):
         modal.setTitle(Translations["settings.title"])
         modal.setWindowTitle(Translations["settings.title"])
         modal.show()
+
+    def open_shortcuts_panel(self):
+        panel = ShortcutSettingsPanel(self)
+        modal = PanelModal(
+            widget=panel,
+            done_callback=panel.save_shortcuts,
+            has_save=True
+        )
+        modal.setTitle("Shortcut Settings")
+        modal.setWindowTitle("Shortcut Settings")
+        modal.show()
+
 
     def update_language_settings(self, language: str):
         Translations.change_language(language)
