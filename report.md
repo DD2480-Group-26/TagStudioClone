@@ -42,7 +42,7 @@ For each team member, how much time was spent in
 4. configuration and setup;
 - Love: 3 hours. Since I had to change to python 3.12 which broke my python install and making it work again took some time. The developers provided a requirements file which installed almost all of the required dependencies. We only had to download FFMPEG separely.
 
-- Filip: 2 Hours. I also had some problems when setting up the project, there seemed to be some modules missing in the virtual enviroments requirement.txt which installed all the necessary modules so I hade to manually install some of the modules.
+- Filip: 2 Hours. I also had some problems when setting up the project, there seemed to be some modules missing in the virtual enviroments requirement.txt which installed all the necessary modules so I hade to manually install some of the modules, there was also a windows specific problem for running the tests, see issue here `https://github.com/TagStudioDev/TagStudio/issues/770` which halted the process of setting up the application for me.
 
 - Adam: 2 hours.
 
@@ -72,9 +72,7 @@ For each team member, how much time was spent in
 - Adam: 2 hours.
 - Robin: 1 hour.
 
-For setting up tools and libraries (step 4), enumerate all dependencies
-you took care of and where you spent your time, if that time exceeds
-30 minutes.
+For setting up tools and libraries (step 4), enumerate all dependencies you took care of and where you spent your time, if that time exceeds 30 minutes.
 
 ## Overview of issue(s) and work done.
 
@@ -96,6 +94,16 @@ Summary of issue: The user is able to create “fields”, each field has a text
 Scope: Fixing the issue involved changes in the FieldContainers class and in the TextWidget class. In the FieldContainers I had to add a function for matching and replacing URLs with the correctly formatted URL in the user given input. In the TextWidget I had to set the flags concerning clicking links and opening the browser to true.
 
 Testing: There existed some testing for creating fields, and those tests passed before. I added tests for validating that the users input would be formatted and displayed in the GUI correctly.
+
+##### Title: [Feature Request]: Shortcut customization #814
+
+URL: https://github.com/TagStudioDev/TagStudio/issues/814
+
+Summary of issue: The current shortcut Ctrl + Shift +T is quite long and not that accessible for me when I have to add hundreds of tags every hour while tagging my library. I'd like to have a shortcuts config where the user can choose these binds.
+
+Scope: For this issue resolution, I refactored the code that defines the keyboard shortcut for the “Add Tag” action in TagStudio. Previously, the shortcut was hardcoded as "Ctrl+Shift+T," but now the action dynamically retrieves its shortcut from persistent settings (using QSettings) defaults to "T" if the user hasn't changed the shortcut before. In addition, I implemented a dedicated ShortcutSettingsPanel that allows users to modify and save their desired key sequences via a QKeySequenceEdit widget. This panel updates the QSettings and immediately applies changes to the corresponding QAction. A simple unit tests was also added using pytest and pytest‑qt to ensure that the new shortcut customization works correctly and that the changes persist across sessions.
+
+Testing: Because this was a feature request, there were no existing tests related to the issue when we started.
 
 
 ## Requirements for the new feature or requirements affected by functionality being refactored
