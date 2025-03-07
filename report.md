@@ -1,5 +1,9 @@
 # Report for assignment 4
 
+[Tests before addition](https://dd2480-group-26.github.io/TagStudioReports/report_before_addtions.html?sort=result)
+
+[Tests after addition](https://dd2480-group-26.github.io/TagStudioReports/report_after_addtions.html?sort=result)
+
 
 ## Project
 
