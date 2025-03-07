@@ -125,14 +125,22 @@ Optional (point 3): trace tests to requirements.
 
 ### Patch
 
+##### Patch for [Feature Request]: Sort by Filename #822
+https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0006-Closes-issue-number-8.patch
+
+
+##### Patch for [Bug]: The app freezes for a time when clicking on a GIF image
+COPY LINK HERE
+
+##### Patch for [Feature Request]: Add the ability to open the URL in the URL field #506
+https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0001-Added-the-patch-for-issue-3.patch
+
+
 #### Patch for [Feature Request]: Shortcut customization #814
 https://github.com/DD2480-Group-26/TagStudioClone/blob/main/0001-feat-closes-issue-5.patch
 
-git diff ...
 
-Optional (point 4): the patch is clean.
-
-Optional (point 5): considered for acceptance (passes all automated checks).
+All the patches we applied pass the repository's automated tests during our pull requests.
 
 ## Test results
 
