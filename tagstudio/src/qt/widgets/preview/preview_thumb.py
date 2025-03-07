@@ -7,12 +7,13 @@ import time
 import typing
 from pathlib import Path
 from warnings import catch_warnings
+from shiboken6 import isValid
 
 import cv2
 import rawpy
 import structlog
 from PIL import Image, UnidentifiedImageError
-from PySide6.QtCore import QBuffer, QByteArray, QSize, Qt
+from PySide6.QtCore import QBuffer, QByteArray, QSize, Qt, QThread, Signal, Slot, QObject
 from PySide6.QtGui import QAction, QMovie, QResizeEvent
 from PySide6.QtWidgets import (
     QHBoxLayout,
@@ -36,6 +37,14 @@ if typing.TYPE_CHECKING:
     from src.qt.ts_qt import QtDriver
 
 logger = structlog.get_logger(__name__)
+
+from PIL import features
+print(features.check('webp'))
+
+'''
+Worker thread for handling the asynchronous adding of 
+'''
+
 
 
 class PreviewThumb(QWidget):
@@ -234,51 +243,54 @@ class PreviewThumb(QWidget):
         if self.preview_gif.movie():
             self.preview_gif.movie().stop()
             self.gif_buffer.close()
+        
+        # Record the current file path so async callbacks know which file they belong to. 
+        self._current_animation_filepath = filepath
 
-        try:
-            image: Image.Image = Image.open(filepath)
-            stats["width"] = image.width
-            stats["height"] = image.height
-            self.update_image_size((image.width, image.height), image.width / image.height)
-            anim_image: Image.Image = image
-            image_bytes_io: io.BytesIO = io.BytesIO()
-            anim_image.save(
-                image_bytes_io,
-                "GIF",
-                lossless=True,
-                save_all=True,
-                loop=0,
-                disposal=2,
-            )
-            image_bytes_io.seek(0)
-            ba: bytes = image_bytes_io.read()
-            self.gif_buffer.setData(ba)
-            movie = QMovie(self.gif_buffer, QByteArray())
-            self.preview_gif.setMovie(movie)
+        if filepath.suffix.lower() == ".gif" or filepath.suffix.lower() == ".webp"  :
+            try:    
+                # Directly read the GIF bytes.
+                with open(filepath, "rb") as f:
+                    gif_bytes = f.read() 
+                # Use Pillow just to get dimensions.
+                image = Image.open(filepath)
+                stats["width"], stats["height"] = image.size
+                self.update_image_size(image.size, image.width / image.height)
+                self.gif_buffer.setData(gif_bytes)
+                movie = QMovie(self.gif_buffer, QByteArray())
 
-            # If the animation only has 1 frame, display it like a normal image.
-            if movie.frameCount() == 1:
-                self._display_fallback_image(filepath, ext)
-                return stats
-
-            # The animation has more than 1 frame, continue displaying it as an animation
-            self.switch_preview("animated")
-            self.resizeEvent(
-                QResizeEvent(
-                    QSize(image.width, image.height),
-                    QSize(image.width, image.height),
+                self.preview_gif.setMovie(movie)
+                if movie.frameCount() == 1:
+                    # When it is just an image and not an animation 
+                    self._display_fallback_image(filepath, ext)
+                    return stats
+                # Show the animated preview.
+                self.switch_preview("animated")
+                # the expected image size.
+                self.resizeEvent(
+                    QResizeEvent(
+                        QSize(image.width, image.height),
+                        QSize(image.width, image.height),
+                    )
                 )
-            )
-            movie.start()
-            self.preview_gif.show()
-
-            stats["duration"] = movie.frameCount() // 60
-        except UnidentifiedImageError as e:
-            logger.error("[PreviewThumb] Could not load animated image", filepath=filepath, error=e)
-            return self._display_fallback_image(filepath, ext)
-
+                movie.start()
+                self.preview_gif.show()
+                stats["duration"] = movie.frameCount() // 60
+            except Exception as e:
+                logger.error(
+                    "[PreviewThumb] Could not load animated GIF directly",
+                    filepath=filepath,
+                    error = e, 
+                )
+                return self._display_fallback_image(filepath, ext)
+            
+        else:
+            # For other animated types (e.g. APNG, WebP), run conversion asynchronously.
+            self._update_animation_async(filepath, ext)
+            # Can return an empty stats here; stats can be updated later when the async work completes.
         return stats
 
+    
     def _update_video_legacy(self, filepath: Path) -> dict:
         stats: dict = {}
         filepath_ = str(filepath)
