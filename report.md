@@ -92,9 +92,9 @@ Summary of the issue: There is a preview window and when a user clicks on a gif 
 in the preview. During this time, the app freezes and the user can not interact with the app in any way. Fixing this issue should not reintroduce the
 problem which the pause fixed, namely that files playing in the preview should still be deletable, which they were not previously.
 
-Scope: Fixing the 
-
-Testing: There were no tests for this functionality before 
+Scope: Fixing the bug involved making changes in the function _update_animation so that we still can do other things when clicking on a .gif file or files with similar formats. 
+ 
+Testing: There were no tests for this part of the code before we started so the tests for the expected functionality had to be added. 
 
 #### Title: [Feature Request]: Add the ability to open the URL in the URL field #506
 URL: https://github.com/TagStudioDev/TagStudio/issues/506
@@ -125,6 +125,15 @@ Testing: Because this was a feature request, there were no existing tests relate
 
 #### Requirement 2: Sort the files by name
 - Sort the filenames according to alphabetical order by their filenames
+
+### Title: [Bug]: The app freezes for a time when clicking on a GIF image #816
+
+#### Requirement 1: Clicking on a gif should not prevent the user from interacting with the app. 
+- When the user clicks on a gif icon should we still be able to use the other functionalities in the app. 
+
+#### Requirement 2: A gif playing in the preview should be deletable.
+- The bug was introduced because the developers wanted the users to be able to delete a gif that was playing in the preview and fixing this bug should not reintroduce that behaviour. 
+
 
 ### Requirements for [Feature Request]: Shortcut customization #814
 
@@ -177,7 +186,8 @@ All the patches we applied pass the repository's automated tests during our pull
 
 [UML diagram for [Feature Request]: Sort by Filename #822](https://www.plantuml.com/plantuml/png/TPBVQeCm5CRlynIvj8Wl4CQecoaCwc1qiCiGasmDonz8Jcd7sBlF654HwuNaVFdEpoydxYFm01Tha30yHamTX1_yYt3_L5XBWhM3iNBSAe8ZXB6M71JZKYf9XZLegz0VGifTB3xv0DfzjLugckgCREftokgceSrG7bwEzBLkQUhAtpze0ogSeCTDAM96CTkpo1eyUdWKoibU9xZptWngYQyQpcpPNgJNRcjNwg04QE-A7hMR0nrr5_WqaX97nOCuCvFbudF8k_2tNBiFxQI_RkPdmjlET_v6yDjpMZxvssHR9RdhBLT8Rap7nNSn7co3D5jIqdp93rMr7kQuKrMFouj0UGQvOqDFzldOQA-SJ3_KFm00)
 
-
+[UML diagram for  [Bug]: The app freezes for a time when clicking on a GIF image]
+(//www.plantuml.com/plantuml/png/bPHFRniX4CNlV8evEggZzepIA8tKGwIsSjAgFI8MPdUHMLWDitRTgj-zi5vl_2Vgdmi6vlSUp4FUkyIQUEYyI6iNUasw0-DrIk-OoLK3uuE9uRFxWV16YB42AyADm-sNTkWg-2a00Ax1TOtAECUWKgObyD1xl761bv27sndJ3IhIxAA4saVDKw7Vcwhi8-5nDQJsVdJxHhhlaSwenjMP-g0hz5Cbx-Jpwnef5-xpv4ApSLR2LsSnhhpUpMKkRIZ2O96AU6phQLpEJ8VMQTMFCWaVo-h4Gvc1iWCh7LnNUWkgTXvxpQs4LHv7xXKaP7MKmE8uXwk96Ngh6IUiHBbuCSyb78lXBNoA0GyUQUlOj6hgV37zIaXC1qHPbqf3gjRULzgizoSkJk-z1FpEUvq4wmmVrFCj_rypP_Gt7TpS4DRQS2IqjxTdDfloaifZeytkpEdbSyT7_2Ev1-VO_gsjrjbdoVm077jLz6f8EEyIbgTyly702ooZXCUdvxqhyKk841c1NDConFhahoRbHO82u6bEw39Ww93RQ6N6hZEeRO9o9wXsZ0ci8pJiTr1JxF8ghKVkeUizTXWu0SLgI0n850bQ7QnteO6junQOTg-DPjCk1GOBvTP2tELf-PJy1W00)
 ## Overall experience
 
 What are your main take-aways from this project? What did you learn?
