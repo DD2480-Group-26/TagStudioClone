@@ -279,9 +279,7 @@ class PreviewThumb(QWidget):
                 )
                 return self._display_fallback_image(filepath, ext)
 
-        else:
-            # For other animated types (e.g. APNG, WebP), run conversion asynchronously.
-            self._update_animation_async(filepath, ext)
+        
         return stats
 
     def _update_video_legacy(self, filepath: Path) -> dict:
