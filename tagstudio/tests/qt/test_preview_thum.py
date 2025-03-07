@@ -1,18 +1,12 @@
-import io
-import pytest
+import os
+from contextlib import suppress
 from pathlib import Path
+
+import pytest
 from PIL import Image
-
-from PySide6.QtCore import Qt, QSize, QBuffer, QByteArray
-from PySide6.QtGui import QMovie, QResizeEvent, QIcon
-
-# Import your PreviewThumb widget from your module.
-# Adjust the import path to match your project structure.
+from PySide6.QtCore import QByteArray
 from src.qt.widgets.preview.preview_thumb import PreviewThumb
 
-# --- Dummy Classes for Testing ---
-
-import os
 
 class DummyResourceManager:
     def __init__(self):
@@ -21,10 +15,11 @@ class DummyResourceManager:
         self.pause_icon = QByteArray()
         self.volume_icon = QByteArray()
         self.volume_mute_icon = QByteArray()
-        
+
     def get_path(self, name):
         return Path("/tmp/dummy/resource")
-    
+
+
 class DummyDriver:
     def __init__(self):
         self.deleted = False
@@ -45,17 +40,19 @@ class DummyDriver:
         except OSError:
             return False
 
+
 class DummySettings:
     def __init__(self, initial_values=None):
         self._values = initial_values or {}
 
-    def value(self, key, defaultValue=None, type=None):
-        result = self._values.get(key, defaultValue)
-        if type is not None:
-            try:
-                result = type(result)
-            except Exception:
-                pass
+    def value(self, key, default_value=None, type_=None, **kwargs):
+        # Support calls using 'defaultValue' as well as 'default_value'
+        if "defaultValue" in kwargs:
+            default_value = kwargs.pop("defaultValue")
+        result = self._values.get(key, default_value)
+        if type_ is not None:
+            with suppress(Exception):
+                result = type_(result)
         return result
 
 class DummyLibrary:
@@ -67,11 +64,14 @@ class DummyLibrary:
         thumbs_dir = self.library_dir / ".TagStudio" / "thumbs"
         thumbs_dir.mkdir(parents=True, exist_ok=True)
 
+
 # --- Fixtures ---
+
 
 @pytest.fixture
 def dummy_driver():
     return DummyDriver()
+
 
 @pytest.fixture
 def preview_thumb(qtbot, dummy_driver):
@@ -80,7 +80,9 @@ def preview_thumb(qtbot, dummy_driver):
     qtbot.addWidget(widget)
     return widget
 
+
 # --- Helper Functions to Create Test Files ---
+
 
 def create_animated_gif(tmp_path: Path, filename="test_anim.gif") -> Path:
     """
@@ -94,6 +96,7 @@ def create_animated_gif(tmp_path: Path, filename="test_anim.gif") -> Path:
         frames.append(img)
     frames[0].save(path, save_all=True, append_images=frames[1:], loop=0, duration=100)
     return path
+
 
 def create_animated_webp(tmp_path: Path, filename="test_anim.webp") -> Path:
     """
@@ -127,21 +130,27 @@ def create_static_image(tmp_path: Path, filename="test_static.jpg") -> Path:
     img.save(path, format="JPEG")
     return path
 
+
 # --- Mock for MediaPlayer if necessary ---
 # If the MediaPlayer class in PreviewThumb still causes issues, you can use this mock
+
 
 class MockMediaPlayer:
     def __init__(self, driver):
         self.player = MockMediaPlayerInstance()
+
     def show(self):
         pass
+
     def hide(self):
         pass
+
     def stop(self):
         pass
-    
+
     def play(self, filepath):
         pass
+
 
 class MockMediaPlayerInstance:
     def duration(self):
@@ -170,8 +179,12 @@ def test_animated_webp(preview_thumb, qtbot, tmp_path):
 
     # Verify that the animated preview widget is visible and others are hidden.
     assert preview_thumb.preview_gif.isVisible(), "Animated WebP preview is not visible."
-    assert not preview_thumb.preview_img.isVisible(), "Static image preview should be hidden when using WebP."
-    assert not preview_thumb.preview_vid.isVisible(), "Video preview should be hidden when using WebP."
+    assert (
+        not preview_thumb.preview_img.isVisible()
+    ), "Static image preview should be hidden when using WebP."
+    assert (
+        not preview_thumb.preview_vid.isVisible()
+    ), "Video preview should be hidden when using WebP."
 
     # After update, ensure the file can be deleted.
     webp_file.unlink()
@@ -207,6 +220,7 @@ def test_animated_preview(preview_thumb, qtbot, tmp_path):
     anim_file.unlink()
     assert not anim_file.exists(), "Animated GIF file was not deleted."
 
+
 def test_static_preview(preview_thumb, qtbot, tmp_path):
     """
     Test that update_preview loads a static image preview for non-animated files.
@@ -230,6 +244,7 @@ def test_static_preview(preview_thumb, qtbot, tmp_path):
     static_file.unlink()
     assert not static_file.exists(), "Static image file was not deleted."
 
+
 def test_delete_action(preview_thumb, qtbot, tmp_path, dummy_driver):
     """
     Test that triggering the delete action in the preview calls the driver's delete_files_callback.
@@ -243,4 +258,3 @@ def test_delete_action(preview_thumb, qtbot, tmp_path, dummy_driver):
     assert dummy_driver.deleted is True, "Driver's delete_files_callback was not called."
     # Also check that the file passed to the callback is the same as our static file.
     assert dummy_driver.deleted_file == static_file, "Deleted file path does not match."
-

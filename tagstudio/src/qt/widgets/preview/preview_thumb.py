@@ -2,18 +2,16 @@
 # Licensed under the GPL-3.0 License.
 # Created for TagStudio: https://github.com/CyanVoxel/TagStudio
 
-import io
 import time
 import typing
 from pathlib import Path
 from warnings import catch_warnings
-from shiboken6 import isValid
 
 import cv2
 import rawpy
 import structlog
 from PIL import Image, UnidentifiedImageError
-from PySide6.QtCore import QBuffer, QByteArray, QSize, Qt, QThread, Signal, Slot, QObject
+from PySide6.QtCore import QBuffer, QByteArray, QSize, Qt
 from PySide6.QtGui import QAction, QMovie, QResizeEvent
 from PySide6.QtWidgets import (
     QHBoxLayout,
@@ -38,13 +36,10 @@ if typing.TYPE_CHECKING:
 
 logger = structlog.get_logger(__name__)
 
-from PIL import features
-print(features.check('webp'))
 
-'''
+"""
 Worker thread for handling the asynchronous adding of 
-'''
-
+"""
 
 
 class PreviewThumb(QWidget):
@@ -243,15 +238,15 @@ class PreviewThumb(QWidget):
         if self.preview_gif.movie():
             self.preview_gif.movie().stop()
             self.gif_buffer.close()
-        
-        # Record the current file path so async callbacks know which file they belong to. 
+
+        # Record the current file path so async callbacks know which file they belong to.
         self._current_animation_filepath = filepath
 
-        if filepath.suffix.lower() == ".gif" or filepath.suffix.lower() == ".webp"  :
-            try:    
+        if filepath.suffix.lower() == ".gif" or filepath.suffix.lower() == ".webp":
+            try:
                 # Directly read the GIF bytes.
                 with open(filepath, "rb") as f:
-                    gif_bytes = f.read() 
+                    gif_bytes = f.read()
                 # Use Pillow just to get dimensions.
                 image = Image.open(filepath)
                 stats["width"], stats["height"] = image.size
@@ -261,7 +256,7 @@ class PreviewThumb(QWidget):
 
                 self.preview_gif.setMovie(movie)
                 if movie.frameCount() == 1:
-                    # When it is just an image and not an animation 
+                    # When it is just an image and not an animation
                     self._display_fallback_image(filepath, ext)
                     return stats
                 # Show the animated preview.
@@ -280,17 +275,15 @@ class PreviewThumb(QWidget):
                 logger.error(
                     "[PreviewThumb] Could not load animated GIF directly",
                     filepath=filepath,
-                    error = e, 
+                    error=e,
                 )
                 return self._display_fallback_image(filepath, ext)
-            
+
         else:
             # For other animated types (e.g. APNG, WebP), run conversion asynchronously.
             self._update_animation_async(filepath, ext)
-            # Can return an empty stats here; stats can be updated later when the async work completes.
         return stats
 
-    
     def _update_video_legacy(self, filepath: Path) -> dict:
         stats: dict = {}
         filepath_ = str(filepath)
