@@ -1,11 +1,12 @@
-import pytest
-from sqlalchemy import create_engine, select
-from sqlalchemy.orm import sessionmaker, Session as SaSession
 from pathlib import Path
 
+import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session as SaSession
+from sqlalchemy.orm import sessionmaker
+from src.core.library.alchemy.enums import FilterState, SortingModeEnum
 from src.core.library.alchemy.library import Library, LibraryPrefs
-from src.core.library.alchemy.enums import SortingModeEnum, FilterState
-from src.core.library.alchemy.models import Entry, Base, Folder
+from src.core.library.alchemy.models import Base, Entry, Folder
 
 
 # Define a dummy prefs function that returns default values.
@@ -22,8 +23,8 @@ def dummy_prefs(key):
 def session():
     engine = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    sess: SaSession = Session()
+    session = sessionmaker(bind=engine)
+    sess: SaSession = session()
     # Attach required attributes to the session:
     sess.engine = engine
     sess.prefs = dummy_prefs  # Attach the callable dummy_prefs
