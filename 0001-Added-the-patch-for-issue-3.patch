@@ -1,0 +1,134 @@
+From dd780242349679e5d9dd27b5cc9e3a19058852db Mon Sep 17 00:00:00 2001
+From: SkrodS <robin.widjeback@gmail.com>
+Date: Fri, 7 Mar 2025 10:25:24 +0100
+Subject: [PATCH] Added the patch for issue #3 making links in fields clickable
+
+---
+ .../qt/widgets/preview/field_containers.py    | 20 ++++++++++
+ tagstudio/src/qt/widgets/text.py              |  6 ++-
+ tagstudio/tests/qt/test_field_containers.py   | 40 +++++++++++++++++++
+ 3 files changed, 65 insertions(+), 1 deletion(-)
+
+diff --git a/tagstudio/src/qt/widgets/preview/field_containers.py b/tagstudio/src/qt/widgets/preview/field_containers.py
+index a6d4223..37bec92 100644
+--- a/tagstudio/src/qt/widgets/preview/field_containers.py
++++ b/tagstudio/src/qt/widgets/preview/field_containers.py
+@@ -2,6 +2,7 @@
+ # Licensed under the GPL-3.0 License.
+ # Created for TagStudio: https://github.com/CyanVoxel/TagStudio
+ 
++import re
+ import sys
+ import typing
+ from collections.abc import Callable
+@@ -302,6 +303,23 @@ class FieldContainers(QWidget):
+         else:
+             container = self.containers[index]
+ 
++        def make_links_clickable(text):
++            if not text:
++                return ""
++
++            url_pattern = re.compile(
++                r"(https?://\S+|www\.\S+|\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b(?!@))"
++            )
++
++            def replace_with_link(match):
++                url = match.group(0)
++                text = url
++                if not url.startswith("http"):
++                    url = "http://" + url
++                return f'<a href="{url}">{text}</a>'
++
++            return url_pattern.sub(replace_with_link, text)
++
+         if field.type.type == FieldTypeEnum.TEXT_LINE:
+             container.set_title(field.type.name)
+             container.set_inline(False)
+@@ -310,12 +328,14 @@ class FieldContainers(QWidget):
+             if not is_mixed:
+                 assert isinstance(field.value, (str, type(None)))
+                 text = field.value or ""
++                text = make_links_clickable(text)  # Convert URLs to links
+             else:
+                 text = "<i>Mixed Data</i>"
+ 
+             title = f"{field.type.name} ({field.type.type.value})"
+             inner_widget = TextWidget(title, text)
+             container.set_inner_widget(inner_widget)
++
+             if not is_mixed:
+                 modal = PanelModal(
+                     EditTextLine(field.value),
+diff --git a/tagstudio/src/qt/widgets/text.py b/tagstudio/src/qt/widgets/text.py
+index 28e21b0..6eea5c7 100644
+--- a/tagstudio/src/qt/widgets/text.py
++++ b/tagstudio/src/qt/widgets/text.py
+@@ -18,7 +18,11 @@ class TextWidget(FieldWidget):
+         self.text_label = QLabel()
+         self.text_label.setStyleSheet("font-size: 12px")
+         self.text_label.setWordWrap(True)
+-        self.text_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
++        self.text_label.setOpenExternalLinks(True)
++        self.text_label.setTextInteractionFlags(
++            Qt.TextInteractionFlag.TextBrowserInteraction
++            | Qt.TextInteractionFlag.TextSelectableByMouse
++        )
+         self.base_layout.addWidget(self.text_label)
+         self.set_text(text)
+ 
+diff --git a/tagstudio/tests/qt/test_field_containers.py b/tagstudio/tests/qt/test_field_containers.py
+index 12bffd6..0bb149d 100644
+--- a/tagstudio/tests/qt/test_field_containers.py
++++ b/tagstudio/tests/qt/test_field_containers.py
+@@ -1,3 +1,7 @@
++from pathlib import Path
++
++from src.core.library.alchemy import Entry
++from src.core.library.alchemy.fields import TextField, _FieldID
+ from src.qt.widgets.preview_panel import PreviewPanel
+ 
+ 
+@@ -170,3 +174,39 @@ def test_custom_tag_category(qt_driver, library, entry_full):
+             case 2:
+                 # Make sure the container isn't a plain Tags category
+                 assert container.title != "<h4>Tags</h4>"
++
++
++def test_textline_url_autolinking(qt_driver, library, entry_full):
++    panel = PreviewPanel(library, qt_driver)
++
++    # Create entry with TextLine field containing URL
++    entry = Entry(
++        folder=library.folder,
++        path=Path("test.txt"),
++        fields=[
++            TextField(
++                type_key=_FieldID.URL.name, value="Visit example.com and github.com", position=0
++            )
++        ],
++    )
++
++    # Add to library
++    entry_id = library.add_entries([entry])[0]
++
++    # Update widgets
++    qt_driver.toggle_item_selection(entry_id, append=False, bridge=False)
++    panel.update_widgets()
++
++    # Get the first container
++    first_container = panel.fields.containers[0]
++
++    # Get the first widget in the layout
++    first_widget = first_container.field_layout.itemAt(0).widget()
++
++    # Get the QLabel
++    label = first_widget.children()[1]
++
++    assert (
++        label.text()
++        == 'Visit <a href="http://example.com">example.com</a> and <a href="http://github.com">github.com</a>'
++    )
+-- 
+2.39.5 (Apple Git-154)
+
